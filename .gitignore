@@ -1,0 +1,47 @@
+# --- Dependencies ---
+node_modules/
+
+# --- Builds ---
+dist/
+build/
+out/
+release/
+*.tsbuildinfo
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- Database (local user data) ---
+*.db
+*.db-shm
+*.db-wal
+
+# --- Environment & secrets ---
+.env
+.env.*
+!.env.example
+
+# --- Local media / attachments ---
+storage/
+media/
+recordings/
+
+# --- Freebuff (this tool's internal data) ---
+.freebuff/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- IDE / editors ---
+.vscode/
+.idea/
+*.swp
+*.swo
