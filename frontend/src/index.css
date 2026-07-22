@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  @apply bg-surface-900 text-slate-200 font-sans antialiased;
+  background-image:
+    radial-gradient(1200px 600px at 80% -10%, rgba(99, 102, 241, 0.12), transparent),
+    radial-gradient(900px 500px at -10% 110%, rgba(14, 165, 233, 0.08), transparent);
+  background-attachment: fixed;
+}
+
+body.light {
+  color-scheme: light;
+  @apply bg-slate-100 text-slate-800;
+}
+
+body.high-contrast {
+  @apply bg-black text-white;
+}
+
+body.high-contrast .card, body.high-contrast aside {
+  border-color: #fff !important;
+}
+
+.card {
+  @apply bg-surface-800/80 border border-surface-600/60 rounded-2xl shadow-lg backdrop-blur;
+}
+
+body.light .card {
+  @apply bg-white border-slate-200 shadow-sm;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { @apply bg-surface-600 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-surface-600/80; }
+
+.markdown-body h1 { @apply text-2xl font-bold mt-4 mb-2; }
+.markdown-body h2 { @apply text-xl font-bold mt-4 mb-2; }
+.markdown-body h3 { @apply text-lg font-semibold mt-3 mb-1; }
+.markdown-body ul { @apply list-disc pl-5 my-2 space-y-1; }
+.markdown-body ol { @apply list-decimal pl-5 my-2 space-y-1; }
+.markdown-body code { @apply font-mono text-sm bg-surface-700/60 px-1.5 py-0.5 rounded; }
+.markdown-body pre { @apply bg-surface-900 border border-surface-600 rounded-xl p-4 my-3 overflow-x-auto; }
+.markdown-body pre code { @apply bg-transparent p-0; }
+.markdown-body blockquote { @apply border-l-4 border-accent pl-4 italic my-3 text-slate-400; }
+.markdown-body a { @apply text-accent-soft underline; }
+.markdown-body table { @apply w-full border-collapse my-3; }
+.markdown-body th, .markdown-body td { @apply border border-surface-600 px-3 py-1.5 text-left; }

@@ -1,23 +1,28 @@
 # Backend
 
-The local StudyOS backend — **FastAPI · SQLAlchemy · Pydantic · SQLite**.
+StudyOS local backend — **FastAPI · SQLAlchemy · Pydantic · SQLite**.
 
-## What lives here
+## Run
 
-- FastAPI application (`app/`)
-- SQLAlchemy models & SQLite database
-- Pydantic schemas (request/response validation)
-- REST API modules:
-  - `auth` — local profile only, no accounts
-  - `dashboard`, `subjects`, `study`, `calendar`, `goals`
-  - `analytics`, `notes`, `flashcards`, `ai`, `settings`, `backup`
+```bash
+cd backend
+../.venv/Scripts/python -m uvicorn app.main:app --port 8000
+```
 
-## Constraints
+Interactive API docs: http://127.0.0.1:8000/docs
 
-- **Offline-first**: binds to `127.0.0.1` only
-- **SQL injection protection** via SQLAlchemy ORM (no raw SQL)
-- Input validation on every endpoint (Pydantic)
+## Modules
 
-## Status
+- `app/models.py` — 12 tables: subjects, topics, study_sessions, goals, exams,
+  assignments, notes, flashcards, journal_entries, mood_entries, ai_history, settings
+- `app/analytics.py` — streaks, productivity score, heatmap, learning curve,
+  burnout index, weak-topic detection, **Learning DNA**
+- `app/ai_service.py` — Ollama client with a fully-functional deterministic offline engine
+- `app/routers/` — 12 REST modules (subjects, study, dashboard, goals, calendar,
+  notes, flashcards, mood/journal, analytics, ai, settings, backup)
 
-🚧 Placeholder — scaffolding in progress (Phase 2).
+## Tests
+
+```bash
+../.venv/Scripts/python -m pytest ../tests/unit -q
+```

@@ -1,5 +1,7 @@
 # --- Dependencies ---
 node_modules/
+.venv/
+venv/
 
 # --- Builds ---
 dist/
@@ -11,16 +13,16 @@ release/
 # --- Python ---
 __pycache__/
 *.py[cod]
-.venv/
-venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
 
-# --- Database (local user data) ---
+# --- Local user data ---
 *.db
 *.db-shm
 *.db-wal
+backend/data/
+backups-export/
 
 # --- Environment & secrets ---
 .env

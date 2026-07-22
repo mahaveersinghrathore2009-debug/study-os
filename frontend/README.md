@@ -1,21 +1,24 @@
 # Frontend
 
-The StudyOS desktop UI — **React · TypeScript · TailwindCSS · Zustand**.
+StudyOS desktop UI — **React · TypeScript · TailwindCSS · Zustand · Apache ECharts**.
 
-## What lives here
+## Screens (14)
 
-- React application source (`src/`)
-- TailwindCSS theme & design system
-- Zustand stores for UI/application state
-- Apache ECharts chart components (analytics)
-- Screens: Dashboard, Subjects, Study, Calendar, Goals, Notes,
-  Flashcards, AI Assistant, Focus Mode, Mood Tracker, Journal, Settings
+Dashboard · Study · Focus Mode · Subjects · Calendar · Goals · Notes ·
+Flashcards · AI Assistant · Analytics · Mood · Journal · Settings
 
-## Architecture
+## Run
 
-The frontend runs inside Electron and talks to the **local FastAPI backend**
-(`/backend`) over HTTP on `127.0.0.1` — never over the network.
+```bash
+npm install
+npm run dev        # http://localhost:5173 (backend must run on :8000)
+npm run build      # type-checks + production build into dist/
+```
 
-## Status
+## Stack notes
 
-🚧 Placeholder — scaffolding in progress (Phase 2).
+- State: Zustand store (`src/store.ts`) — settings, subjects, toasts, theming
+- API: typed fetch client (`src/lib/api.ts`) → `http://127.0.0.1:8000`
+- Charts: thin ECharts wrapper (`src/components/Chart.tsx`)
+- Markdown: `marked` for note previews and AI responses
+- Types mirror backend Pydantic schemas (`src/types.ts` ↔ `backend/app/schemas.py`)

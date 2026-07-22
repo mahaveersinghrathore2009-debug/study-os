@@ -1,0 +1,24 @@
+{
+  "name": "studyos-desktop",
+  "version": "0.1.0",
+  "description": "StudyOS desktop shell (Electron)",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^31.4.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.studyos.app",
+    "productName": "StudyOS",
+    "files": ["main.js", "preload.js", "backend/**/*", "frontend/dist/**/*"],
+    "directories": { "output": "release" },
+    "win": { "target": ["nsis"] },
+    "mac": { "target": ["dmg"], "category": "public.app-category.education" },
+    "linux": { "target": ["AppImage"], "category": "Education" }
+  }
+}
