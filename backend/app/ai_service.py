@@ -124,7 +124,7 @@ def _offline_summarize(text: str) -> str:
 def _offline_quiz(prompt: str) -> str:
     import re
 
-    m = re.search(r"(?:topic|quiz|on)\s+[:\-]?\s*[\"']?([A-Za-z0-9 _\-]+)", prompt, re.I)
+    m = re.search(r"topic '([^']+)'", prompt) or re.search(r"(?:quiz|on)\s+['\"]?([A-Za-z0-9 _\-]+)", prompt, re.I)
     topic = m.group(1).strip() if m else "this topic"
     return (
         f"Offline quiz on **{topic}** (3 questions):\n\n"

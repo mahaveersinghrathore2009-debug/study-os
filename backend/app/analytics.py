@@ -154,25 +154,25 @@ def weekly_totals(db: Session, weeks: int = 12, now: Optional[date] = None) -> d
 def monthly_totals(db: Session, months: int = 6, now: Optional[date] = None) -> dict:
     now = now or date.today()
     labels, totals = [], []
-    for i in range(months - 1, -1, -1):
-        ref = (now.replace(day=1) - timedelta(days=1) * 0) - __month_offset(i)
-        month_start = ref.replace(day=1)
+    cur = now.replace(day=1)
+    for _ in range(months):
+        month_start = cur
         next_month = (month_start.replace(day=28) + timedelta(days=4)).replace(day=1)
         labels.append(month_start.strftime("%b %Y"))
-        mins = minutes_of(
+        totals.append(
+            minutes_of(
                 _finished(db)
                 .filter(
                     func.date(StudySession.started_at) >= month_start.isoformat(),
                     func.date(StudySession.started_at) < next_month.isoformat(),
                 )
                 .all()
+            )
         )
-        totals.append(mins)
+        cur = (month_start - timedelta(days=1)).replace(day=1)
+    labels.reverse()
+    totals.reverse()
     return {"labels": labels, "minutes": totals}
-
-
-def __month_offset(i: int) -> timedelta:
-    return timedelta(days=31 * i)
 
 
 def subject_distribution(db: Session, now: Optional[date] = None) -> list[dict]:
@@ -299,6 +299,7 @@ def weak_topics(db: Session, limit: int = 5) -> list[dict]:
         sessions = (
             db.query(StudySession)
             .filter(StudySession.topic_id == topic.id, StudySession.status == "finished")
+            .order_by(StudySession.started_at.desc())
             .all()
         )
         minutes = sum(s.duration_seconds for s in sessions) / 60

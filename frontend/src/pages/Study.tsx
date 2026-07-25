@@ -26,7 +26,6 @@ export default function Study() {
   const [notes, setNotes] = useState("");
 
   const tickRef = useRef<number | null>(null);
-  const startedAtRef = useRef<number>(0);
 
   useEffect(() => {
     loadSubjects();
@@ -34,14 +33,14 @@ export default function Study() {
   }, [loadSubjects]);
 
   useEffect(() => {
-    if (!running) return;
+    if (!running || paused) return;
     tickRef.current = window.setInterval(() => {
-      setElapsed(Math.floor((Date.now() - startedAtRef.current) / 1000));
+      setElapsed((e) => e + 1);
     }, 1000);
     return () => {
       if (tickRef.current) window.clearInterval(tickRef.current);
     };
-  }, [running]);
+  }, [running, paused]);
 
   const topics = useMemo<FlatTopic[]>(() => {
     const out: FlatTopic[] = [];
@@ -61,7 +60,6 @@ export default function Study() {
     try {
       const s = await api.startSession({ subject_id: subjectId, topic_id: topicId || null });
       setSessionId(s.id);
-      startedAtRef.current = Date.now();
       setElapsed(0);
       setPaused(false);
       setRunning(true);
@@ -111,7 +109,7 @@ export default function Study() {
     toast("Session deleted", "info");
   };
 
-  const display = running && !paused ? formatDuration(elapsed) : formatDuration(elapsed);
+  const display = formatDuration(elapsed);
 
   return (
     <div className="space-y-6 animate-fade-in">

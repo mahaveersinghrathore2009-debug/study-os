@@ -92,7 +92,7 @@ def dashboard(db: Session = Depends(get_db)):
             "period": g.period,
             "unit": g.unit,
             "target": g.target,
-            "progress": analytics.progress_for(db, g.period, g.unit, g.subject_id)[0],
+            "progress": min(1.0, analytics.progress_for(db, g.period, g.unit, g.subject_id)[0] / max(g.target, 0.001)),
         }
         for g in db.query(Goal).all()
     ]
