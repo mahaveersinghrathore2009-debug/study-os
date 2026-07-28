@@ -14,7 +14,7 @@ export default function Mood() {
   const [note, setNote] = useState("");
 
   const load = () => api.mood().then(setEntries).catch(() => {});
-  useEffect(load, []);
+  useEffect(() => { load(); }, []);
 
   const save = async () => {
     try {

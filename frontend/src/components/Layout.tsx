@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from "react-router-dom";
 import {
-  BarChart3, Brain, Calendar, CheckSquare, Clock, Dumbbell, Flame,
-  LayoutDashboard, Library, NotebookPen, Settings, Sparkles, StickyNote, X,
+  BarChart3, Brain, Calendar, CheckSquare, Clock, Dumbbell, LayoutDashboard,
+  Library, Menu, NotebookPen, Settings, Sparkles, StickyNote, X,
 } from "lucide-react";
 import { useApp } from "../store";
 import { useState } from "react";
@@ -65,6 +65,17 @@ export default function Layout() {
 
   return (
     <div className="flex h-screen overflow-hidden">
+      <div className="lg:hidden fixed inset-x-0 top-0 z-30 flex items-center gap-3 border-b border-surface-600/60 bg-surface-800/90 px-4 py-3 backdrop-blur">
+        <button onClick={() => setMobileOpen(true)} aria-label="Open navigation" className="rounded-lg p-2 text-slate-300 hover:bg-surface-600/60">
+          <Menu size={20} />
+        </button>
+        <div className="flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-accent to-cyan-500">
+            <Brain size={16} className="text-white" />
+          </div>
+          <span className="font-bold tracking-tight">StudyOS</span>
+        </div>
+      </div>
       <div className="hidden lg:block">{sidebar}</div>
       {mobileOpen && (
         <div className="fixed inset-0 z-40 lg:hidden">
@@ -72,7 +83,7 @@ export default function Layout() {
           <div className="absolute inset-y-0 left-0">{sidebar}</div>
         </div>
       )}
-      <main className="flex-1 overflow-y-auto">
+      <main className="flex-1 overflow-y-auto pt-16 lg:pt-0">
         <div className="mx-auto max-w-6xl px-4 py-6 lg:px-8">
           <Outlet />
         </div>

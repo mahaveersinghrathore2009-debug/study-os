@@ -17,7 +17,7 @@ export default function Goals() {
   const [form, setForm] = useState({ title: "", period: "weekly", unit: "hours", target: 4, subject_id: 0 });
 
   const load = () => api.goals().then(setGoals).catch(() => {});
-  useEffect(load, []);
+  useEffect(() => { load(); }, []);
 
   const save = async () => {
     if (!form.title.trim() || form.target <= 0) return toast("Title and a positive target are required", "error");

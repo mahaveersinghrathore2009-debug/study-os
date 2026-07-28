@@ -47,3 +47,6 @@ desktop.ini
 .idea/
 *.swp
 *.swo
+
+# --- Dev artifacts ---
+*.log
