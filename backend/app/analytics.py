@@ -8,7 +8,7 @@ from typing import Optional
 from sqlalchemy import func
 from sqlalchemy.orm import Session
 
-from .models import MoodEntry, StudySession, Subject, Topic
+from .models import utcnow, MoodEntry, StudySession, Subject, Topic
 
 MIN_SESSION_SECONDS = 60  # sessions shorter than this don't count toward streaks/hours
 DAY = timedelta(days=1)
@@ -341,7 +341,7 @@ def learning_dna(db: Session) -> dict:
     now = date.today()
     start = now - timedelta(days=90)
     sess = _finished(db).filter(func.date(StudySession.started_at) >= start.isoformat()).all()
-    dna: dict = {"window_days": 90, "generated_at": datetime.utcnow().isoformat()}
+    dna: dict = {"window_days": 90, "generated_at": utcnow().isoformat()}
     if not sess:
         dna["empty"] = True
         return dna

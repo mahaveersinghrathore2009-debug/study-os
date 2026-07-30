@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
 from ..database import get_db
-from ..models import StudySession, Subject, Topic
+from ..models import utcnow, StudySession, Subject, Topic
 from ..schemas import SessionFinish, SessionOut, SessionStart
 
 router = APIRouter(prefix="/api", tags=["study"])
@@ -37,12 +37,12 @@ def start_session(payload: SessionStart, db: Session = Depends(get_db)):
     # close any orphaned running session
     for s in db.query(StudySession).filter(StudySession.status == "running").all():
         s.status = "finished"
-        s.ended_at = datetime.utcnow()
+        s.ended_at = utcnow()
         s.duration_seconds = max(0, int((s.ended_at - s.started_at).total_seconds()))
     session = StudySession(
         subject_id=payload.subject_id,
         topic_id=payload.topic_id,
-        started_at=datetime.utcnow(),
+        started_at=utcnow(),
         status="running",
     )
     db.add(session)
@@ -56,7 +56,7 @@ def finish_session(session_id: int, payload: SessionFinish, db: Session = Depend
     s = db.get(StudySession, session_id)
     if not s:
         raise HTTPException(404, "Session not found")
-    ended = payload.ended_at or datetime.utcnow()
+    ended = payload.ended_at or utcnow()
     s.ended_at = ended
     s.duration_seconds = payload.duration_seconds or max(0, int((ended - s.started_at).total_seconds()))
     s.mood = payload.mood

@@ -1,8 +1,13 @@
 from __future__ import annotations
 
 import enum
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 from typing import Optional
+
+
+def utcnow() -> datetime:
+    """Timezone-aware UTC now (utcnow() is deprecated in Python 3.12+)."""
+    return datetime.now(timezone.utc)
 
 from sqlalchemy import (
     Boolean,
@@ -40,7 +45,7 @@ class Subject(Base):
     icon: Mapped[Optional[str]] = mapped_column(String(40), nullable=True)
     weekly_goal_hours: Mapped[float] = mapped_column(Float, default=4.0)
     target_exam_date: Mapped[Optional[date]] = mapped_column(Date, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     topics: Mapped[list[Topic]] = relationship(
         back_populates="subject", cascade="all, delete-orphan"
@@ -59,7 +64,7 @@ class Topic(Base):
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     mastery: Mapped[float] = mapped_column(Float, default=0.0)  # 0.0 .. 1.0
     difficulty: Mapped[int] = mapped_column(Integer, default=3)  # 1..5
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
     subject: Mapped[Subject] = relationship(back_populates="topics")
     parent: Mapped[Optional[Topic]] = relationship(
@@ -75,7 +80,7 @@ class StudySession(Base):
     topic_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("topics.id", ondelete="SET NULL"), nullable=True
     )
-    started_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow, index=True)
     ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     duration_seconds: Mapped[int] = mapped_column(Integer, default=0)
     mood: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)  # 1..5
@@ -98,7 +103,7 @@ class Goal(Base):
     subject_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("subjects.id", ondelete="CASCADE"), nullable=True
     )
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class Exam(Base):
@@ -112,7 +117,7 @@ class Exam(Base):
     exam_date: Mapped[date] = mapped_column(Date, index=True)
     weight: Mapped[int] = mapped_column(Integer, default=3)  # importance 1..5
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class Assignment(Base):
@@ -126,7 +131,7 @@ class Assignment(Base):
     due_date: Mapped[date] = mapped_column(Date, index=True)
     status: Mapped[str] = mapped_column(String(16), default="pending")  # pending|done
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class Note(Base):
@@ -142,9 +147,9 @@ class Note(Base):
         ForeignKey("topics.id", ondelete="SET NULL"), nullable=True
     )
     pinned: Mapped[bool] = mapped_column(Boolean, default=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+        DateTime, default=utcnow, onupdate=utcnow
     )
 
 
@@ -164,7 +169,7 @@ class Flashcard(Base):
     interval_days: Mapped[int] = mapped_column(Integer, default=0)
     reviews: Mapped[int] = mapped_column(Integer, default=0)
     due_date: Mapped[date] = mapped_column(Date, default=date.today, index=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class JournalEntry(Base):
@@ -173,9 +178,9 @@ class JournalEntry(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     entry_date: Mapped[date] = mapped_column(Date, index=True, default=date.today)
     content: Mapped[str] = mapped_column(Text, default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
     updated_at: Mapped[datetime] = mapped_column(
-        DateTime, default=datetime.utcnow, onupdate=datetime.utcnow
+        DateTime, default=utcnow, onupdate=utcnow
     )
 
 
@@ -187,7 +192,7 @@ class MoodEntry(Base):
     mood: Mapped[int] = mapped_column(Integer, default=3)  # 1..5
     energy: Mapped[int] = mapped_column(Integer, default=3)  # 1..5
     note: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class AIHistory(Base):
@@ -198,7 +203,7 @@ class AIHistory(Base):
     prompt: Mapped[str] = mapped_column(Text, default="")
     response: Mapped[str] = mapped_column(Text, default="")
     model: Mapped[str] = mapped_column(String(64), default="")
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
 
 class Setting(Base):
