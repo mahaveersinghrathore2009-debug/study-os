@@ -131,3 +131,16 @@ def test_burnout_trend_shape(db):
     trend = analytics.burnout_trend(db, 14)
     assert len(trend) == 14
     assert all(0 <= t["risk"] <= 100 for t in trend)
+
+
+def test_fk_ordered_tables_parents_before_children():
+    """Regression: restore must insert parents before children."""
+    from app.routers.backup import _fk_ordered_tables
+    order = _fk_ordered_tables()
+    assert order.index("subjects") < order.index("topics")
+    assert order.index("subjects") < order.index("study_sessions")
+    assert order.index("topics") < order.index("study_sessions")
+    assert order.index("subjects") < order.index("flashcards")
+    assert order.index("topics") < order.index("flashcards")
+    assert order.index("subjects") < order.index("goals")
+    assert order.index("subjects") < order.index("notes")

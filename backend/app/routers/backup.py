@@ -56,6 +56,42 @@ def export_backup():
     return {"filename": name, "bytes": len(encrypted), "tables": list(dump.keys())}
 
 
+def _fk_ordered_tables() -> list[str]:
+    """Tables topologically sorted: parents before children (FK-aware).
+
+    The default alphabetical table order breaks INSERTs: a child table
+    (e.g. flashcards -> subjects/topics) would be restored before its
+    parents exist, tripping the foreign-key check.
+    """
+    inspector = inspect(engine)
+    tables = inspector.get_table_names()
+    refs: dict[str, set[str]] = {t: set() for t in tables}
+    for t in tables:
+        for fk in inspector.get_foreign_keys(t):
+            ref = fk.get("referred_table")
+            if ref and ref in refs:
+                refs[t].add(ref)
+
+    order: list[str] = []
+    visited: set[str] = set()
+
+    def visit(t: str, stack: set[str]) -> None:
+        if t in visited:
+            return
+        if t in stack:  # cycle guard (should not happen)
+            return
+        stack.add(t)
+        for parent in refs.get(t, ()):
+            visit(parent, stack)
+        stack.discard(t)
+        visited.add(t)
+        order.append(t)
+
+    for t in tables:
+        visit(t, set())
+    return order
+
+
 @router.post("/restore")
 def restore_backup(payload: RestoreRequest):
     path = BACKUP_DIR / payload.filename
@@ -66,11 +102,14 @@ def restore_backup(payload: RestoreRequest):
         dump = json.loads(f.decrypt(path.read_bytes()))
     except Exception:
         raise HTTPException(400, "Could not decrypt backup (wrong key or corrupted file)")
+    ordered = _fk_ordered_tables()
     with SessionLocal() as db:
-        for table in reversed(inspect(engine).get_table_names()):
+        # children first, so CASCADE/restraints never block the wipe
+        for table in reversed(ordered):
             db.execute(text(f'DELETE FROM "{table}"'))
-        for table, rows in dump.items():
-            for row in rows:
+        # parents first, so FKs are satisfied at INSERT time
+        for table in ordered:
+            for row in dump.get(table, []):
                 cols = ", ".join(f'"{k}"' for k in row.keys())
                 vals = ", ".join(":" + k for k in row.keys())
                 db.execute(text(f'INSERT INTO "{table}" ({cols}) VALUES ({vals})'), row)
