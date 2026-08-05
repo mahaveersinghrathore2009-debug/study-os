@@ -35,6 +35,11 @@ with a built-in offline engine so everything works even before you install it.**
 | Database | SQLite |
 | AI | Ollama (Qwen 2.5 · Gemma · Phi-3) + built-in offline engine |
 
+## 📥 Download & install
+
+Full step-by-step guide (prerequisites, clone/ZIP, setup, run, local AI):
+**[docs/INSTALL.md](docs/INSTALL.md)**
+
 ## Quick start
 
 ```bash
@@ -73,8 +78,8 @@ StudyOS/
 
 ## Status
 
-v0.1.0 — backend ✅ verified (tests + live API), frontend ✅ code-complete (needs
-Node.js to build), desktop shell ✅, docs ✅. See [docs/roadmap.md](docs/roadmap.md).
+v0.1.0 — backend ✅ verified (13 tests + live API), frontend ✅ builds (tsc + Vite),
+desktop shell ✅, docs ✅, local AI ✅ (Ollama + qwen2.5:7b). See [docs/roadmap.md](docs/roadmap.md).
 
 ## Privacy promise
 

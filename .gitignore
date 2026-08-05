@@ -34,7 +34,7 @@ storage/
 media/
 recordings/
 
-# --- Freebuff (this tool's internal data) ---
+# --- Local tooling data (never committed) ---
 .freebuff/
 
 # --- OS ---
