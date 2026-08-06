@@ -11,4 +11,5 @@ Static resources for StudyOS.
 
 ## Status
 
-🚧 Placeholder — assets will be added during UI design (Phase 1–2).
+Mostly placeholders for now — icons and branding will be finalized alongside the
+Electron packaging work.

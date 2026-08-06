@@ -16,10 +16,12 @@ Offline AI layer powered by **Ollama** — 100% local, no cloud, no API keys.
   - **Learning DNA** — personal learning profile built over time
 - Revision planning logic (spaced repetition)
 
-## Key principle
+## How it works
+
+The backend (`backend/app/ai_service.py`) talks to Ollama over `127.0.0.1:11434`.
+If no model is installed, every feature falls back to a deterministic offline
+engine, so the app stays fully functional without AI.
+
+## Privacy
 
 No study data is ever sent to a remote server. Models run through Ollama locally.
-
-## Status
-
-🚧 Placeholder — scaffolding in progress (Phase 4).

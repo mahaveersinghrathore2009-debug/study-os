@@ -4,18 +4,14 @@ StudyOS test suites.
 
 ## What lives here
 
-- **Pytest** — unit, integration & API tests for `/backend` and `/ai`
-- **Playwright** — end-to-end & UI tests for the Electron/React app
-- Performance & accessibility test scripts
+- `unit/test_analytics.py` — analytics engine tests (streaks, productivity,
+  learning DNA, burnout, backup table ordering)
+- `lifecycle_check.py` — headless end-to-end check that drives the live API
+  (subjects → session → analytics → flashcards → backup → cleanup)
+- `e2e/` — Playwright end-to-end tests for the desktop UI (planned)
 
-## Test pyramid
+## Run
 
+```bash
+.venv/Scripts/python -m pytest tests/
 ```
-      UI / E2E   (Playwright)      ▲ few
-     API tests   (Pytest)          ▲ some
-  Unit / logic   (Pytest)          ▲ many
-```
-
-## Status
-
-🚧 Placeholder — tests will be written alongside each feature (Phase 2 onward).
