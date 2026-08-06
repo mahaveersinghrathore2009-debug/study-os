@@ -115,7 +115,7 @@ export default function Study() {
     <div className="space-y-6 animate-fade-in">
       <header>
         <h1 className="text-3xl font-bold tracking-tight">Study</h1>
-        <p className="text-slate-400 mt-1">Log a focused session and the AI learns how you learn.</p>
+        <p className="text-slate-400 mt-1">Log a focused session and track how you learn.</p>
       </header>
 
       <div className="grid gap-6 lg:grid-cols-3">
@@ -174,7 +174,7 @@ export default function Study() {
               {history.slice(0, 20).map((s) => (
                 <li key={s.id} className="flex items-center justify-between gap-2 text-sm border-b border-surface-600/50 pb-2.5">
                   <div className="min-w-0">
-                    <p className="font-medium truncate">{s.subject_name} {s.topic_name && <span className="text-slate-500">· {s.topic_name}</span>}</p>
+                    <p className="font-medium truncate">{s.subject_name ?? "Focus"} {s.topic_name && <span className="text-slate-500">· {s.topic_name}</span>}</p>
                     <p className="text-xs text-slate-500">{formatDateTime(s.started_at)} · {formatDuration(s.duration_seconds)}{s.mood ? ` · ${MOOD_EMOJI[s.mood - 1]}` : ""}</p>
                   </div>
                   <button onClick={() => del(s.id)} className="text-slate-600 hover:text-rose-400 p-1"><Trash2 size={14} /></button>

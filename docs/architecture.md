@@ -14,7 +14,7 @@
                   └──┬───────┬───────┬──┘
                      │       │       │
           ┌──────────▼┐ ┌────▼────┐ ┌▼──────────────┐
-          │  SQLite   │ │ Ollama  │ │  File storage │
+          │  SQLite   │ │ Models  │ │  File storage │
           │  data/    │ │ :11434  │ │  data/backups │
           └───────────┘ └─────────┘ └───────────────┘
 ```
@@ -22,7 +22,7 @@
 ## Principles
 
 - **Offline-first**: everything binds to `127.0.0.1`. No external calls, ever.
-- **Graceful AI**: every AI feature has a deterministic offline fallback.
+- **Always available**: every assistant feature has a deterministic fallback.
 - **Single local database**: SQLite via SQLAlchemy ORM (SQL-injection-safe).
 - **Shared contracts**: Pydantic schemas (backend) mirrored by TypeScript types (`frontend/src/types.ts`).
 
@@ -33,7 +33,7 @@
 | API entry | `backend/app/main.py` | FastAPI app, CORS, router wiring, startup |
 | Models | `backend/app/models.py` | 12 SQLAlchemy tables |
 | Analytics | `backend/app/analytics.py` | Streaks, productivity, heatmap, DNA, burnout |
-| AI service | `backend/app/ai_service.py` | Ollama client + offline engine |
+| Assistant service | `backend/app/ai_service.py` | chat, quizzes, plans, summaries |
 | Routers | `backend/app/routers/` | 12 REST modules |
 | UI shell | `frontend/src/components/Layout.tsx` | Sidebar navigation, toasts |
 | Charts | `frontend/src/components/Chart.tsx` | Apache ECharts wrapper |
@@ -43,7 +43,7 @@
 
 ```
 main ─────────────► release/v1.0
-  └── develop ───────► feature/dashboard, feature/analytics, feature/ai, ...
+  └── develop ───────► feature/dashboard, feature/analytics, feature/assistant, ...
 ```
 
 ## Data flow example (study session)

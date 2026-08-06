@@ -76,7 +76,10 @@ class StudySession(Base):
     __tablename__ = "study_sessions"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    subject_id: Mapped[int] = mapped_column(ForeignKey("subjects.id", ondelete="CASCADE"))
+    # Nullable so Focus/Pomodoro blocks can be recorded without a subject.
+    subject_id: Mapped[Optional[int]] = mapped_column(
+        ForeignKey("subjects.id", ondelete="CASCADE"), nullable=True
+    )
     topic_id: Mapped[Optional[int]] = mapped_column(
         ForeignKey("topics.id", ondelete="SET NULL"), nullable=True
     )
@@ -119,6 +122,8 @@ class Exam(Base):
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
 
+    subject: Mapped[Optional[Subject]] = relationship()
+
 
 class Assignment(Base):
     __tablename__ = "assignments"
@@ -132,6 +137,8 @@ class Assignment(Base):
     status: Mapped[str] = mapped_column(String(16), default="pending")  # pending|done
     notes: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utcnow)
+
+    subject: Mapped[Optional[Subject]] = relationship()
 
 
 class Note(Base):

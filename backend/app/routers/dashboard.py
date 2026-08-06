@@ -97,7 +97,7 @@ def dashboard(db: Session = Depends(get_db)):
         for g in db.query(Goal).all()
     ]
 
-    # deterministic AI recommendation (fast, offline-safe)
+    # deterministic recommendation
     recommendation = _recommend(db, today_minutes, week_minutes)
 
     return {
@@ -138,4 +138,4 @@ def _recommend(db: Session, today_minutes: int, week_minutes: int) -> dict:
         tip = "Let's get today's first session going — 25 focused minutes is enough to start."
     else:
         tip = "Solid momentum. Review yesterday's notes for 10 minutes to lock them in."
-    return {"title": "AI Recommendation", "text": tip}
+    return {"title": "Recommendation", "text": tip}

@@ -28,7 +28,10 @@ export default function Subjects() {
 
   const minutesBySubject = useMemo(() => {
     const m: Record<number, number> = {};
-    for (const s of sessions) m[s.subject_id] = (m[s.subject_id] ?? 0) + s.duration_seconds;
+    for (const s of sessions) {
+      if (s.subject_id == null) continue; // unassigned focus blocks have no subject
+      m[s.subject_id] = (m[s.subject_id] ?? 0) + s.duration_seconds;
+    }
     return m;
   }, [sessions]);
 

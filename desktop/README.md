@@ -15,7 +15,7 @@ The Electron shell that hosts the StudyOS UI.
 ```
 React Desktop UI  →  Electron Main Process  →  FastAPI Local Backend
                                                 ↓
-                                    SQLite · Ollama · File Storage
+                                    SQLite · Local models · File storage
 ```
 
 ## Running

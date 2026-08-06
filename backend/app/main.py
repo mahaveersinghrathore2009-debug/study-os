@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from . import ai_service
 from .config import settings
-from .database import Base, engine
+from .database import Base, engine, migrate_schema
 from .routers import (
     ai,
     analytics,
@@ -29,6 +29,7 @@ log = logging.getLogger("studyos")
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    migrate_schema(engine)
     Base.metadata.create_all(bind=engine)
     log.info("StudyOS database ready at %s", settings.database_url)
     if ai_service.ollama_available():
@@ -40,7 +41,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="StudyOS",
-    description="The Offline AI Study Companion That Respects Your Privacy.",
+    description="StudyOS — a private, local-first study companion.",
     version=settings.version,
     lifespan=lifespan,
 )

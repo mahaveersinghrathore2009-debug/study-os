@@ -1,7 +1,7 @@
 # Installing & Running StudyOS
 
 This guide covers getting StudyOS onto **your own laptop** — from downloading the
-project to running the full app with local AI. Everything is offline and free.
+project to running the full app. Everything is offline and free.
 
 ---
 
@@ -28,7 +28,7 @@ cd <YOUR-REPO>
 |---|---|---|
 | **Python** | 3.11+ (3.12/3.13 recommended) | Backend (FastAPI) |
 | **Node.js** | 20+ LTS | Frontend build (React/Vite) |
-| **Ollama** | latest | Optional — local AI model runner |
+| **Local model runner (e.g. Ollama)** | latest | Optional — powers the Study Assistant |
 
 Check what you have:
 
@@ -40,7 +40,7 @@ npm --version
 
 - Python: [python.org/downloads](https://www.python.org/downloads/) — tick **"Add Python to PATH"**
 - Node.js: [nodejs.org](https://nodejs.org/) — LTS version
-- Ollama (optional): [ollama.com/download](https://ollama.com/download)
+- Local model runner (optional): [ollama.com/download](https://ollama.com/download)
 
 ---
 
@@ -94,11 +94,11 @@ Open **http://localhost:5173** in your browser. You're in.
 
 ---
 
-## 5. Optional: local AI models (recommended)
+## 5. Optional: local models (recommended)
 
-StudyOS works fully without AI — it has a built-in deterministic offline engine
+StudyOS works fully out of the box — the Study Assistant ships with a built-in engine
 for chat, planning, quizzes, weak-topic detection and Learning DNA. To unlock the
-real language model (100% offline, nothing uploaded):
+local language model (100% offline, nothing uploaded):
 
 ```bash
 # 1. Make sure Ollama is installed and running (ollama.com/download)
@@ -111,7 +111,7 @@ ollama pull qwen2.5:7b
 scripts/model.sh qwen2.5:7b
 ```
 
-Then in the app: **Settings → AI** — confirm *"Ollama running"* and the model
+Then in the app: **Settings → Local models** — confirm *"Local model ready"* and the model
 name. Faster/lighter option: `ollama pull qwen2.5:3b` (≈2 GB).
 
 ---
@@ -134,8 +134,8 @@ You should see **13 tests passed** and a successful Vite build.
 
 1. **Subjects** → add a subject (e.g. *Mathematics*) → add a chapter → add a topic
 2. **Study** → start a session, let it run, finish it (add mood + difficulty)
-3. **Dashboard** → watch your streak, productivity and the AI recommendation update
-4. **AI Assistant** → ask it anything, or try *Plan my day* / *Quiz me*
+3. **Dashboard** → watch your streak and productivity update
+4. **Study Assistant** → ask it anything, or try *Plan my day* / *Quiz me*
 5. **Analytics** → heatmap, learning curve, burnout trend, exam readiness
 6. **Settings → Backup** → create an encrypted backup of everything
 
@@ -148,8 +148,8 @@ You should see **13 tests passed** and a successful Vite build.
 | `python` not recognized | Install Python, tick *Add to PATH*, restart terminal |
 | `npm` not recognized | Install Node.js LTS, restart terminal |
 | Backend won't start (port busy) | `netstat -ano | findstr :8000`, kill the listed PID |
-| AI chat says *offline engine* | Ollama isn't running, or no model pulled — see step 5 |
-| Model replies slowly | Use `qwen2.5:3b` instead of `:7b` (Settings → AI) |
+| Assistant says *built-in engine* | No local model running, or none pulled — see step 5 |
+| Model replies slowly | Use `qwen2.5:3b` instead of `:7b` (Settings → Local models) |
 | Data appears missing | Check `backend/data/` (SQLite DB) and restore a backup if needed |
 
 ---

@@ -121,7 +121,7 @@ export default function Dashboard() {
               <p className="text-sm text-slate-300 mt-1 leading-relaxed">{data.recommendation.text}</p>
             </div>
           </div>
-          <p className="text-[11px] text-slate-500 mt-3">Generated locally from your study data.</p>
+          <p className="text-[11px] text-slate-500 mt-3">Based on your recent study activity.</p>
         </Card>
       </div>
 

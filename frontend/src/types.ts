@@ -21,7 +21,7 @@ export interface Subject {
 
 export interface Session {
   id: number;
-  subject_id: number;
+  subject_id: number | null;
   subject_name?: string | null;
   topic_id?: number | null;
   topic_name?: string | null;

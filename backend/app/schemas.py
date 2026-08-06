@@ -68,7 +68,8 @@ class SubjectTree(BaseModel):
 
 # ---------- Study sessions ----------
 class SessionStart(BaseModel):
-    subject_id: int
+    # subject is optional so Focus/Pomodoro blocks can be logged without one
+    subject_id: Optional[int] = None
     topic_id: Optional[int] = None
 
 
@@ -80,9 +81,21 @@ class SessionFinish(BaseModel):
     ended_at: Optional[datetime] = None
 
 
+class SessionLog(BaseModel):
+    """Atomically record a finished study block (used by the Pomodoro timer)."""
+
+    subject_id: Optional[int] = None
+    topic_id: Optional[int] = None
+    duration_seconds: int = Field(ge=0)
+    mood: Optional[int] = Field(None, ge=1, le=5)
+    difficulty: Optional[int] = Field(None, ge=1, le=5)
+    notes: Optional[str] = None
+    started_at: Optional[datetime] = None
+
+
 class SessionOut(ORMModel):
     id: int
-    subject_id: int
+    subject_id: Optional[int]
     subject_name: Optional[str] = None
     topic_id: Optional[int]
     topic_name: Optional[str] = None
@@ -256,7 +269,7 @@ class SettingsUpdate(BaseModel):
     high_contrast: Optional[bool] = None
 
 
-# ---------- AI ----------
+# ---------- Assistant ----------
 class ChatRequest(BaseModel):
     message: str = Field(min_length=1)
     history: list[dict] = []

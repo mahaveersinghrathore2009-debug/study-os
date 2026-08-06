@@ -54,7 +54,9 @@ export const api = {
   deleteTopic: (id: number) => del(`/api/subjects/topics/${id}`),
 
   // study sessions
-  startSession: (b: { subject_id: number; topic_id?: number | null }) => post<Session>("/api/sessions/start", b),
+  startSession: (b: { subject_id?: number | null; topic_id?: number | null }) => post<Session>("/api/sessions/start", b),
+  logSession: (b: { subject_id?: number | null; topic_id?: number | null; duration_seconds: number; notes?: string; started_at?: string }) =>
+    post<Session>("/api/sessions/log", b),
   finishSession: (id: number, b: { duration_seconds?: number; mood?: number; difficulty?: number; notes?: string }) =>
     post<Session>(`/api/sessions/${id}/finish`, b),
   sessions: () => get<Session[]>("/api/sessions?limit=100"),

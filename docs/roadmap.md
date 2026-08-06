@@ -5,7 +5,7 @@
 ## Phase 1 — Planning & Scaffolding ✅ (mostly done)
 
 - [x] Project structure, git strategy (`main` / `develop` / `feature/*`)
-- [x] Tech-stack selection (React, FastAPI, SQLite, Ollama, ECharts)
+- [x] Tech-stack selection (React, FastAPI, SQLite, ECharts)
 - [ ] UI design system finalization
 - [ ] Branding & name finalization
 
@@ -14,7 +14,7 @@
 - [x] FastAPI backend with SQLAlchemy + SQLite (12 tables)
 - [x] Subjects → Chapters → Topics → Subtopics hierarchy
 - [x] Study sessions (start / pause / resume / finish + mood, difficulty, notes)
-- [x] Dashboard (streak, productivity score, goals, upcoming exams, AI recommendation)
+- [x] Dashboard (streak, productivity score, goals, upcoming exams, recommendations)
 - [x] React + TypeScript + Tailwind + Zustand frontend (14 screens)
 - [x] Electron desktop shell that boots the backend automatically
 - [x] Scripts (`setup.sh`, `dev.sh`, `backup.sh`, `model.sh`)
@@ -26,13 +26,13 @@
 - [x] Burnout trend + index, goal completion, exam readiness
 - [x] Streak calendar, weak-topic detection
 
-## Phase 4 — AI ✅ (built, needs Ollama to unlock full power)
+## Phase 4 — Study Assistant ✅ (built)
 
-- [x] Offline AI engine (deterministic, works with zero installs)
-- [x] Ollama integration (chat, summarize, quiz, plan, motivate) with graceful fallback
+- [x] Built-in assistant engine (deterministic, works with zero installs)
+- [x] Local model integration (chat, summarize, quiz, plan, motivate) with graceful fallback
 - [x] **Learning DNA** — personal learning profile (best hours, ideal session length, style, burnout patterns)
 - [ ] Revision planner (spaced-repetition calendar view)
-- [ ] AI-generated flashcards from notes
+- [ ] Auto-generated flashcards from notes
 
 ## Phase 5 — Hardening ⏳
 
@@ -52,4 +52,4 @@
 
 Voice commands · OCR for handwritten notes · Study groups (LAN) · Plugin system ·
 Theme marketplace · Extension API · Wearable integration · Notion/Obsidian import ·
-AI tutor personalities.
+Assistant personalities.

@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 
 from ..database import get_db
 from ..models import utcnow, StudySession, Subject, Topic
-from ..schemas import SessionFinish, SessionOut, SessionStart
+from ..schemas import SessionFinish, SessionLog, SessionOut, SessionStart
 
 router = APIRouter(prefix="/api", tags=["study"])
 
@@ -30,7 +30,7 @@ def _to_out(s: StudySession) -> SessionOut:
 
 @router.post("/sessions/start", response_model=SessionOut)
 def start_session(payload: SessionStart, db: Session = Depends(get_db)):
-    if not db.get(Subject, payload.subject_id):
+    if payload.subject_id is not None and not db.get(Subject, payload.subject_id):
         raise HTTPException(404, "Subject not found")
     if payload.topic_id and not db.get(Topic, payload.topic_id):
         raise HTTPException(404, "Topic not found")
@@ -66,6 +66,35 @@ def finish_session(session_id: int, payload: SessionFinish, db: Session = Depend
     db.commit()
     db.refresh(s)
     return _to_out(s)
+
+
+@router.post("/sessions/log", response_model=SessionOut)
+def log_session(payload: SessionLog, db: Session = Depends(get_db)):
+    """Atomically record a finished study block (Pomodoro timer).
+
+    Unlike start+finish, this never leaves an orphaned "running" row behind,
+    so a later start can't inflate stats with a stale session duration.
+    """
+    if payload.subject_id is not None and not db.get(Subject, payload.subject_id):
+        raise HTTPException(404, "Subject not found")
+    if payload.topic_id and not db.get(Topic, payload.topic_id):
+        raise HTTPException(404, "Topic not found")
+    started = payload.started_at or utcnow()
+    session = StudySession(
+        subject_id=payload.subject_id,
+        topic_id=payload.topic_id,
+        started_at=started,
+        ended_at=started + timedelta(seconds=payload.duration_seconds),
+        duration_seconds=payload.duration_seconds,
+        mood=payload.mood,
+        difficulty=payload.difficulty,
+        notes=payload.notes,
+        status="finished",
+    )
+    db.add(session)
+    db.commit()
+    db.refresh(session)
+    return _to_out(session)
 
 
 @router.get("/sessions", response_model=list[SessionOut])

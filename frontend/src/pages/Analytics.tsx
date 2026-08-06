@@ -3,17 +3,45 @@ import { Flame, Gauge, HeartPulse, Timer } from "lucide-react";
 import type { AnalyticsOverview } from "../types";
 import { api } from "../lib/api";
 import Chart, { barSeries, grid, lineSeries, tooltipStyle } from "../components/Chart";
-import { Badge, Card, ProgressBar, SectionTitle, Spinner, StatCard } from "../components/ui";
+import { Badge, Button, Card, ProgressBar, SectionTitle, Spinner, StatCard } from "../components/ui";
 import { formatMinutes } from "../lib/format";
 
 const HEAT_COLORS = ["#1a2131", "#312e81", "#4338ca", "#6366f1", "#818cf8"];
 
+const header = (
+  <header>
+    <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
+    <p className="text-slate-400 mt-1">Your study patterns, visualized — computed entirely on this device.</p>
+  </header>
+);
+
 export default function Analytics() {
   const [data, setData] = useState<AnalyticsOverview | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
-    api.analytics().then(setData).catch(() => {});
-  }, []);
+    let alive = true;
+    setError(null);
+    api.analytics()
+      .then((d) => { if (alive) setData(d); })
+      .catch((e: unknown) => { if (alive) setError((e as Error).message || "Couldn't load analytics data."); });
+    return () => { alive = false; };
+  }, [attempt]);
+
+  if (error) {
+    return (
+      <div className="space-y-6 animate-fade-in">
+        {header}
+        <Card className="py-14 text-center">
+          <p className="text-4xl mb-3">📊</p>
+          <p className="font-semibold text-slate-200">Couldn't load analytics</p>
+          <p className="text-sm text-slate-500 mt-1 max-w-sm mx-auto">{error}</p>
+          <Button className="mt-5" onClick={() => setAttempt((a) => a + 1)}>Try again</Button>
+        </Card>
+      </div>
+    );
+  }
 
   if (!data) return <Spinner />;
 
@@ -23,10 +51,7 @@ export default function Analytics() {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <header>
-        <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
-        <p className="text-slate-400 mt-1">Your study patterns, visualized — computed entirely on this device.</p>
-      </header>
+      {header}
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
         <StatCard icon={<Flame size={22} />} label="Streak" value={`${data.streak} days`} color="#fb923c" />

@@ -7,7 +7,7 @@ Interactive docs: `http://127.0.0.1:8000/docs` (Swagger UI).
 
 | Method | Path | Description |
 |---|---|---|
-| GET | `/health` | Status + whether Ollama is detected |
+| GET | `/health` | Status + whether a local model is detected |
 | GET | `/` | App info |
 
 ## Subjects & topics
@@ -59,11 +59,11 @@ Interactive docs: `http://127.0.0.1:8000/docs` (Swagger UI).
 | GET/POST | `/api/mood` | Mood entries (1–5 + energy) |
 | GET/PUT | `/api/journal` | Daily journal by `?entry_date=` |
 
-## AI (Ollama + offline engine)
+## Assistant (local endpoints)
 
 | Method | Path | Description |
 |---|---|---|
-| GET | `/api/ai/status` | Ollama availability + models |
+| GET | `/api/ai/status` | Assistant status + available models |
 | POST | `/api/ai/chat` | `{message, history?}` |
 | POST | `/api/ai/summarize` | `{text}` |
 | POST | `/api/ai/quiz` | `{topic, count, kind}` |
@@ -77,7 +77,7 @@ Interactive docs: `http://127.0.0.1:8000/docs` (Swagger UI).
 
 | Method | Path | Description |
 |---|---|---|
-| GET/PUT | `/api/settings` | Theme, goals, pomodoro, ollama config |
+| GET/PUT | `/api/settings` | Theme, goals, pomodoro, local model config |
 | GET | `/api/backup/list` | Encrypted backup files |
 | POST | `/api/backup/export` | Create encrypted backup |
 | POST | `/api/backup/restore` | `{filename}` restore |

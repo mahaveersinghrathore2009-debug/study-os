@@ -1,7 +1,7 @@
-"""Ollama integration with graceful degradation when no local model is running.
+"""Local assistant service.
 
-Every AI feature has a deterministic fallback so StudyOS is fully usable offline
-even before Ollama is installed.
+Every assistant feature has a deterministic fallback so StudyOS is fully usable
+out of the box.
 """
 from __future__ import annotations
 
@@ -14,10 +14,6 @@ from sqlalchemy.orm import Session
 from . import analytics
 from .config import settings
 
-OFFLINE_NOTICE = (
-    "\n\n_(Ollama isn't running — showing the offline StudyOS engine instead. "
-    "Install Ollama and pull a model to unlock full local AI.)_"
-)
 
 
 # --------------------------------------------------------------------------
@@ -62,7 +58,7 @@ def _try_ai(prompt: str, system: str, db: Session, kind: str) -> tuple[str, bool
             used = True
             return resp.strip(), used
     fallback = _offline_engine(db, kind, prompt)
-    return fallback + OFFLINE_NOTICE, used
+    return fallback, used
 
 
 # --------------------------------------------------------------------------
@@ -146,7 +142,7 @@ def _offline_plan(db: Session, prompt: str) -> str:
         lines.append(f"- Use ~{il}-minute focus blocks (your best length)")
     lines.append("- Mix one recall session: flashcards or a quiz")
     lines.append("- End with a 5-minute review of what you learned")
-    lines.append("- Log mood after each session so the AI learns your patterns")
+    lines.append("- Log mood after each session to sharpen your study profile")
     return "\n".join(lines)
 
 

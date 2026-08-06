@@ -4,7 +4,7 @@
 
 - Python 3.11+ (3.14 works)
 - Node.js 20+ (for the frontend; **not currently installed on this machine**)
-- Optional: [Ollama](https://ollama.com) for local LLM features
+- Optional: a local model runner (e.g. [Ollama](https://ollama.com)) for assistant features
 
 ## Quick start
 
@@ -45,7 +45,7 @@ git checkout develop && git merge feature/your-feature
 ## Project layout
 
 ```
-backend/app/           FastAPI app (main, models, schemas, analytics, ai_service, routers/)
+backend/app/           FastAPI app (main, models, schemas, analytics, assistant service, routers/)
 frontend/src/          React app (pages/, components/, lib/, store.ts, types.ts)
 desktop/               Electron main process + packaging config
 scripts/               setup.sh · dev.sh · backup.sh · model.sh

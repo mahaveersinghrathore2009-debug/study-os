@@ -5,7 +5,7 @@ Not yet implemented. Planned coverage:
 - App boots, backend reachable, dashboard renders stats
 - Create subject → add chapter → log a session → streak updates
 - Flashcards: create → review → interval reschedules
-- AI assistant responds via offline engine without Ollama
+- The assistant responds via its built-in engine without a local model
 - Analytics charts render with data
 
 Setup once Node.js is available:

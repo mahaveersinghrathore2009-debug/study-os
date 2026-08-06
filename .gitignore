@@ -22,6 +22,7 @@ __pycache__/
 *.db-shm
 *.db-wal
 backend/data/
+backend/.freebuff/
 backups-export/
 
 # --- Environment & secrets ---

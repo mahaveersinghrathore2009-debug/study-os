@@ -97,12 +97,12 @@ export default function AIAssistant() {
     <div className="space-y-6 animate-fade-in">
       <header className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">AI Assistant</h1>
-          <p className="text-slate-400 mt-1">Your offline study companion — ask, plan, quiz and summarize.</p>
+          <h1 className="text-3xl font-bold tracking-tight">Study Assistant</h1>
+          <p className="text-slate-400 mt-1">Your personal study companion — ask, plan, quiz and summarize.</p>
         </div>
         {ollama && (
           <Badge color={ollama.ollama_available ? "#34d399" : "#fbbf24"}>
-            <Cpu size={12} /> {ollama.ollama_available ? `Ollama · ${ollama.configured_model}` : "Offline engine"}
+            <Cpu size={12} /> {ollama.ollama_available ? `Local model · ${ollama.configured_model}` : "Built-in engine"}
           </Badge>
         )}
       </header>
@@ -127,7 +127,7 @@ export default function AIAssistant() {
                     <p>{m.content}</p>
                   )}
                   {m.role === "assistant" && m.used_ai !== undefined && (
-                    <p className="text-[10px] text-slate-500 mt-2">{m.used_ai ? "🤖 local model" : "🧠 offline engine"}</p>
+                    <p className="text-[10px] text-slate-500 mt-2">{m.used_ai ? "🤖 local model" : "🧠 built-in engine"}</p>
                   )}
                 </div>
               </div>

@@ -106,15 +106,15 @@ export default function Settings() {
         </Card>
 
         <Card>
-          <div className="flex items-center gap-2 mb-4"><ShieldCheck size={16} className="text-accent-soft" /><h3 className="font-semibold">AI (local models)</h3></div>
+          <div className="flex items-center gap-2 mb-4"><ShieldCheck size={16} className="text-accent-soft" /><h3 className="font-semibold">Local models</h3></div>
           {ollama && (
             <Badge color={ollama.ollama_available ? "#34d399" : "#fbbf24"}>
-              {ollama.ollama_available ? "Ollama running" : "Ollama not running"}
+              {ollama.ollama_available ? "Local model ready" : "Local model not installed"}
             </Badge>
           )}
           <div className="mt-3 space-y-3">
             <div>
-              <label className="text-xs text-slate-500 block mb-1.5">Ollama URL</label>
+              <label className="text-xs text-slate-500 block mb-1.5">Local model URL</label>
               <Input value={form.ollama_url} onChange={(e) => setForm({ ...form, ollama_url: e.target.value })} onBlur={() => save({ ollama_url: form.ollama_url })} />
             </div>
             <div>
@@ -129,7 +129,7 @@ export default function Settings() {
               </Select>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Install Ollama, then run <code className="font-mono text-accent-soft">ollama pull qwen2.5:7b</code>. Until then StudyOS uses its built-in offline engine — fully functional.
+              Install a local model runner (e.g. Ollama), then run <code className="font-mono text-accent-soft">ollama pull qwen2.5:7b</code>. Until then the Study Assistant uses its built-in engine — fully functional.
             </p>
           </div>
         </Card>
@@ -162,11 +162,11 @@ export default function Settings() {
         <ul className="space-y-1.5 text-sm text-slate-400">
           <li>🔒 No account. No sign-up. No tracking.</li>
           <li>🏠 All data stays in SQLite on this device.</li>
-          <li>🧠 AI runs through Ollama on <code className="font-mono text-accent-soft">127.0.0.1</code> — nothing is uploaded.</li>
+          <li>🧠 The assistant runs locally on <code className="font-mono text-accent-soft">127.0.0.1</code> — nothing is uploaded.</li>
           <li>🗄️ Backups are encrypted before touching disk.</li>
           <li>📴 Fully usable offline, always.</li>
         </ul>
-        <p className="text-xs text-slate-600 mt-4">StudyOS v0.1.0 · The Offline AI Study Companion That Respects Your Privacy.</p>
+        <p className="text-xs text-slate-600 mt-4">StudyOS v0.1.0 · Local · Private · Free.</p>
       </Card>
     </div>
   );

@@ -15,7 +15,7 @@ const NAV = [
   { to: "/goals", label: "Goals", icon: CheckSquare },
   { to: "/notes", label: "Notes", icon: StickyNote },
   { to: "/flashcards", label: "Flashcards", icon: Sparkles },
-  { to: "/ai", label: "AI Assistant", icon: Brain },
+  { to: "/ai", label: "Study Assistant", icon: Brain },
   { to: "/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/mood", label: "Mood", icon: NotebookPen },
   { to: "/journal", label: "Journal", icon: NotebookPen },
@@ -35,7 +35,7 @@ export default function Layout() {
         </div>
         <div>
           <p className="font-bold leading-none tracking-tight text-lg">StudyOS</p>
-          <p className="text-[11px] text-slate-500 mt-1">Offline · Private · AI</p>
+          <p className="text-[11px] text-slate-500 mt-1">Local · Private · Free</p>
         </div>
       </div>
       <nav className="flex-1 space-y-0.5 overflow-y-auto">
