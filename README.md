@@ -8,6 +8,30 @@ organize, study, revise, analyze progress, prevent burnout, and continuously imp
 **No account required. No data leaves your computer. AI runs locally (Ollama) —
 with a built-in offline engine so everything works even before you install it.**
 
+## 🚀 How to install
+
+> The full app lives on the **`develop`** branch. Clone it and you're ready to go.
+
+```bash
+# 1. Download
+git clone https://github.com/mahaveersinghrathore2009-debug/study-os.git
+cd study-os
+git checkout develop        # full app is here (main is the skeleton)
+
+# 2. One-time setup  (needs Python 3.11+ and Node.js 20+)
+scripts/setup.sh            # creates .venv, installs backend + frontend deps
+
+# 3. Run
+scripts/dev.sh              # backend on :8000, UI on http://localhost:5173
+```
+
+Open **http://localhost:5173**. That's it.
+
+**Optional — local AI:** `ollama pull qwen2.5:7b` (runs 100% on your machine).
+Without it the app still works via its built-in offline engine.
+
+Details, manual steps and troubleshooting: **[docs/INSTALL.md](docs/INSTALL.md)**
+
 ## ✨ Features
 
 - **Dashboard** — streak, productivity score, today's focus, goals, upcoming exams, AI recommendation
