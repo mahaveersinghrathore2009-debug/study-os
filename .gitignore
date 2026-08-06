@@ -34,9 +34,6 @@ storage/
 media/
 recordings/
 
-# --- Local tooling data (never committed) ---
-.freebuff/
-
 # --- OS ---
 .DS_Store
 Thumbs.db
