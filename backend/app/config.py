@@ -2,7 +2,18 @@ from pathlib import Path
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-BASE_DIR = Path(__file__).resolve().parent.parent  # backend/
+import os
+import sys
+
+# When frozen into a standalone exe (PyInstaller), __file__ points inside a
+# temporary extraction folder that is deleted on exit. Keep user data in a
+# stable location instead (e.g. %LOCALAPPDATA%\StudyOS).
+if getattr(sys, "frozen", False):
+    root = Path(os.environ.get("LOCALAPPDATA", Path.home()))
+    BASE_DIR = root / "StudyOS"
+else:
+    BASE_DIR = Path(__file__).resolve().parent.parent  # backend/
+
 DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 BACKUP_DIR = DATA_DIR / "backups"
@@ -21,7 +32,7 @@ class Settings(BaseSettings):
     database_url: str = f"sqlite:///{DATA_DIR / 'studyos.db'}"
     ollama_url: str = "http://127.0.0.1:11434"
     ollama_model: str = "qwen2.5:7b"
-    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
+    cors_origins: str = "http://localhost:5173,http://127.0.0.1:5173,null"
 
 
 settings = Settings()

@@ -19,7 +19,10 @@ function isBackendRunning() {
 }
 
 function resolveBackendCommand() {
-  // Prefer a virtualenv inside the project, then system python, then python3.
+  // 1. Packaged app: the frozen backend exe ships inside the resources dir.
+  const bundled = path.join(process.resourcesPath, "studyos-backend.exe");
+  if (fs.existsSync(bundled)) return bundled;
+  // 2. Dev: a virtualenv inside the project, then system python.
   const candidates = [
     path.join(__dirname, "..", "backend", "..", ".venv", "Scripts", "python.exe"),
     path.join(__dirname, "..", ".venv", "Scripts", "python.exe"),
@@ -42,10 +45,14 @@ async function startBackend() {
     console.log("StudyOS backend already running on port", BACKEND_PORT);
     return;
   }
-  const py = resolveBackendCommand();
+  const exe = resolveBackendCommand();
+  const isBundled = exe === path.join(process.resourcesPath, "studyos-backend.exe");
   const backendDir = path.join(__dirname, "..", "backend");
-  backendProc = spawn(py, ["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", String(BACKEND_PORT)], {
-    cwd: backendDir,
+  const args = isBundled
+    ? []                                    // frozen exe runs uvicorn itself
+    : ["-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", String(BACKEND_PORT)];
+  backendProc = spawn(exe, args, {
+    cwd: isBundled ? undefined : backendDir,
     stdio: "ignore",
     windowsHide: true,
   });
@@ -74,7 +81,9 @@ function createWindow() {
     return { action: "deny" };
   });
 
-  const distIndex = path.join(__dirname, "..", "frontend", "dist", "index.html");
+  const packagedIndex = path.join(process.resourcesPath, "frontend", "dist", "index.html");
+  const devIndex = path.join(__dirname, "..", "frontend", "dist", "index.html");
+  const distIndex = fs.existsSync(packagedIndex) ? packagedIndex : devIndex;
   if (fs.existsSync(distIndex)) {
     win.loadFile(distIndex);
   } else {
