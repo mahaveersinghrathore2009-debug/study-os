@@ -1,21 +1,10 @@
 # Scripts
 
-Utility & automation scripts for StudyOS development.
+Development and maintenance helpers.
 
-## Planned scripts
-
-- **Dev** — start frontend + backend together, hot reload
-- **Build** — production builds, Electron packaging
-- **Backup** — manual/automatic backup & restore (encrypted)
-- **Database** — schema init, migrations, seed data
-- **AI** — Ollama model download & health check
-- **Release** — version bump, changelog, packaging
-
-## Convention
-
-Scripts are idempotent and safe to re-run. Nothing here touches anything
-outside the project directory.
-
-## Status
-
-🚧 Placeholder — scaffolding in progress.
+| Script | Purpose |
+|---|---|
+| `setup.sh` | One-time setup: Python venv, backend deps, frontend deps |
+| `dev.sh` | Start the backend (FastAPI) and frontend (Vite) together |
+| `backup.sh` | Create an encrypted backup of all study data |
+| `model.sh` | Pull a local model for the assistant (e.g. `./scripts/model.sh qwen2.5:7b`) |

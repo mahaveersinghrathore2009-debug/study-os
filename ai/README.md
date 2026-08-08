@@ -1,25 +1,26 @@
-# AI
+# Assistant
 
-Offline AI layer powered by **Ollama** — 100% local, no cloud, no API keys.
+Local assistant features that run entirely on your machine — no cloud, no
+accounts, no uploads.
 
 ## What lives here
 
-- Ollama client & model management (Qwen 2.5 · Gemma · Phi-3 Mini)
-- Prompt templates & agents:
-  - AI Assistant (ask, explain, quiz, summarize, study advice)
-  - Study Planner (daily schedules)
-  - Weak Topic Detection
-  - Burnout Prediction
-  - Quiz & Flashcard Generator
-  - Notes Summarizer
-  - Motivation Engine
-  - **Learning DNA** — personal learning profile built over time
+- Assistant service (ask, explain, quiz, summarize, study advice)
+- Study Planner (daily schedules)
+- Weak Topic Detection
+- Burnout Prediction
+- Quiz & Flashcard generation
+- Notes Summarizer
+- Motivation Engine
+- Learning profile — personal study patterns built over time
 - Revision planning logic (spaced repetition)
 
-## Key principle
+## How it works
 
-No study data is ever sent to a remote server. Models run through Ollama locally.
+The backend (`backend/app/ai_service.py`) powers these features. Everything
+has a deterministic built-in fallback, so the app stays fully functional
+without any extra setup or downloads.
 
-## Status
+## Privacy
 
-🚧 Placeholder — scaffolding in progress (Phase 4).
+No study data is ever sent to a remote server.
