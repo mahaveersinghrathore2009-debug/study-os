@@ -6,6 +6,32 @@ your own computer.
 
 **No account. No cloud. Your data never leaves your device.**
 
+🟢 **Current status: Working prototype** - a packaged Windows desktop app
+(Electron + installer) with a tested backend, in active development.
+
+## 💸 100% Free & Private
+
+**No paid APIs. No subscriptions. No accounts. No cloud.**
+
+StudyOS runs entirely on your computer — everything is free and nothing
+leaves your device:
+
+- **No API keys** — the Study Assistant, quizzes and summaries run through a
+  built-in local engine with no call to any paid cloud service. If you
+  install [Ollama](https://ollama.com) (free, open source), AI models run on
+  *your* machine — still no API keys, usage fees or credit limits.
+- **Your data stays local** — sessions, notes, moods, flashcards and backups
+  live in a local SQLite database on your PC. Nothing is uploaded, tracked
+  or sold.
+- **Works offline** — no internet connection required. Your study history,
+  streaks and analytics are available anytime.
+- **Free forever** — every library (FastAPI, React, SQLite, Electron, …) is
+  open source, and the app itself is MIT-licensed. There are no tiers,
+  paywalls or hidden costs.
+
+The only "cost" is optional: downloading a local AI model via Ollama takes a
+few GB of disk space.
+
 ## ✨ Features
 
 - **Dashboard** — study streak, productivity score, daily/weekly goals, upcoming exams, recommendations
